@@ -33,11 +33,38 @@ def median(L):
     else: #Case where list has an odd number of elements
         return L[len(L)/2] #Returns the element in the middle of the list.
 
+A = [4, [10, [33], [2]], [3], [14, [12]], [1,[3,[37],[42]]]]
+def bfs(tree,elem): #approach essentially uses the input list(tree) as a queue. Children are extracted and appended to the end of the lists.
+    while tree: #Runs until the queue(tree) is empty
+        val = tree.pop(0) #Take the first element of the tree
+        if type(val) == int: #Check to see if it is an int or a list
+            print str(val)
+            if val == elem: #If int check to see if it matches the element being searched for
+                return True #Return true
+        else: #else it is a list
+            print str(val[0])
+            if val[0] == elem: #Each list first element is the parent. Check to see if the parent is equal to elem
+                return True #Return true if it is
+            for i in val[1:]: #Take the CDR of the current list and append to the tree. Essentially enqueing the children to the end of the list
+                tree.append(i) #append the children of the node to the end of the queue.
+    return False #elem was not found during the BFS
 
-x = [5,1,2,3,1]
-y = [5,1,2,3,1,4]
-print "mean test case #1: " + str(mean(x) == float(12)/float(5))
-print "mean test case #2: " + str(mean(y) == float(16)/float(6))
-print "median test case #1: " + str(median(x) == 2)
-print "median test case #2: " + str(median(y) == 2.5)
-print median(y)
+def dfs(tree,elem):
+    while tree:
+        val = tree.pop(0)
+        if type(val) == int:
+            print val
+            if val == elem:
+                return True
+        else:
+            print val[0]
+            if val[0] == elem:
+                return True
+            val = val[1:]
+            val.reverse()
+            for i in val:
+                tree.insert(0,i)
+    return False
+
+print(dfs(A,0))
+
