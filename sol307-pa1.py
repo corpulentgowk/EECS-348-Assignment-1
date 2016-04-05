@@ -49,21 +49,22 @@ def bfs(tree,elem): #approach essentially uses the input list(tree) as a queue. 
                 tree.append(i) #append the children of the node to the end of the queue.
     return False #elem was not found during the BFS
 
-def dfs(tree,elem):
-    while tree:
-        val = tree.pop(0)
-        if type(val) == int:
-            print val
-            if val == elem:
+def dfs(tree,elem): #approach essentially uses the input list(tree) as a queue. Children are extracted and appended to the end of the lists.
+    while tree: #Runs until the queue(tree) is empty
+        val = tree.pop(0) #Takes the first element of the queue(tree) out of the list.
+        if type(val) == int: #Checks to see if it is an int or a list
+            print val #prints value before evaluation
+            if val == elem: #checks to see if the value is equal to the sought element
                 return True
-        else:
-            print val[0]
-            if val[0] == elem:
+        else: #its a list
+            print val[0] #prints value before evaluation
+            if val[0] == elem: #Checks to see if the parent node value is equal to the sought element
                 return True
-            val = val[1:]
-            val.reverse()
-            for i in val:
-                tree.insert(0,i)
+            val = val[1:] #takes the cdr since the first was already checked
+            val.reverse() #reverses the list to make it easier to prepend it to the queue
+            #effectively prioritizing the children of the node currently visited at so that the search goes deep
+            for i in val: #iterates trhough the children of the parent node
+                tree.insert(0,i) #prepends the childrend to the queue(tree)
     return False
 
 print(dfs(A,0))
