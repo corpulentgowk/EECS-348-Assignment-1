@@ -33,7 +33,7 @@ def median(L):
     else: #Case where list has an odd number of elements
         return L[len(L)/2] #Returns the element in the middle of the list.
 
-A = [4, [10, [33], [2]], [3], [14, [12]], [1,[3,[37],[42]]]]
+A = [4, [10, [33, [2, [3],[4]]], [2]], [3], [14, [12]], [1,[3,[37],[42]]]]
 def bfs(tree,elem): #approach essentially uses the input list(tree) as a queue. Children are extracted and appended to the end of the lists.
     while tree: #Runs until the queue(tree) is empty
         val = tree.pop(0) #Take the first element of the tree
@@ -67,5 +67,60 @@ def dfs(tree,elem): #approach essentially uses the input list(tree) as a queue. 
                 tree.insert(0,i) #prepends the childrend to the queue(tree)
     return False
 
-print(dfs(A,0))
+#print dfs(A,42)
 
+class TTTBoard:
+    """A Tic Tac Toe Board"""
+    def __init__(self):
+        self.data = ['*','*','*','*','*','*','*','*','*']
+    def __str__(self):
+        string = ""
+        count = 0;
+        for i in self.data:
+            if count%3 is not 0:
+                string += str(i) + " "
+                count +=1
+            else:
+                string += "\n" + str(i) + " "
+                count+=1
+        return string
+    def makeMove(self, player, pos):
+        self.data[pos] = player
+    def hasWon(self,player):
+        winning = [[0,1,2],[0,3,6],[3,4,5],[1,4,7],[6,7,8],[2,5,8],[0,4,8],[6,4,2]]
+        for i in winning:
+            if player in [self.data[x] for x in i]:
+                if '*' not in [self.data[x] for x in i]: #uses the predefined winning combination indices to see if the values are all non '*' as that could lead to false conclusion of game over
+                    if (self.data[i[0]] == self.data[i[1]] == self.data[i[2]]): #Checks to see if the non '*' charachters are all matching
+                        return True #Returns true if the winning locations match.
+        return False
+    def gameOver(self):
+        winning = [[0,1,2],[0,3,6],[3,4,5],[1,4,7],[6,7,8],[2,5,8],[0,4,8],[6,4,2]]
+        if '*' not in self.data: #if "*" is absent that means that the board is full
+            return True #Return true. Game over. Board is full
+        for i in winning:
+            if '*' not in [self.data[x] for x in i]: #uses the predefined winning combination indices to see if the values are all non '*' as that could lead to false conclusion of game over
+                if (self.data[i[0]] == self.data[i[1]] == self.data[i[2]]): #Checks to see if the non '*' charachters are all matching
+                    return True #Returns true if the winning locations match.
+        return False #Returns false if the board is not full and there is no winning matching
+    def clear(self):
+        self.data = ['*','*','*','*','*','*','*','*','*']
+
+import string
+import random
+
+test = TTTBoard()
+#print test
+test.makeMove('O', 0)
+test.makeMove('X', 1)
+test.makeMove('O', 2)
+test.makeMove('O', 5)
+test.makeMove('O', 8)
+print test.hasWon('O')
+print test
+#for i in range(0,8):
+#    test.makeMove(random.choice(string.letters),i)
+
+#print test.gameOver()
+#print test
+#str(test)
