@@ -85,7 +85,15 @@ class TTTBoard:
                 count+=1
         return string
     def makeMove(self, player, pos):
-        self.data[pos] = player
+        if (pos >= 0) and (pos <=len((self.data))-1):
+            if '*' == self.data[pos]:
+                self.data[pos] = player
+                return True
+            else:
+                return False
+        else:
+            return False
+
     def hasWon(self,player):
         winning = [[0,1,2],[0,3,6],[3,4,5],[1,4,7],[6,7,8],[2,5,8],[0,4,8],[6,4,2]]
         for i in winning:
@@ -118,9 +126,28 @@ test.makeMove('O', 5)
 test.makeMove('O', 8)
 print test.hasWon('O')
 print test
-#for i in range(0,8):
-#    test.makeMove(random.choice(string.letters),i)
 
+choices='OX'
+for i in range(0,15):
+    for i in range(0,8):
+        test.makeMove(random.choice(choices),i)
+        if test.hasWon('O'):
+            print "____________"
+            print "O won the game"
+            print test
+        if test.hasWon('X'):
+            print "____________"
+            print "X won the game"
+            print test
+print "Out of bounds test:"
+print test
+print(test.makeMove('O', 8))
+
+test.clear()
+print "Out of bounds test:"
+print test
+print(test.makeMove('O', 8))
+print test
 #print test.gameOver()
 #print test
 #str(test)
